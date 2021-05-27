@@ -1,0 +1,16 @@
+const mysql = require("mysql2");
+
+require("dotenv").config();
+
+//connect to database
+const db = mysql.createConnection(
+  {
+    host: process.env.DB_HOST,
+    user: process.env.DB_NAME,
+    password: process.env.DB_PW,
+    database: process.env.DB_NAME,
+  },
+  console.log("Connected to the Employee Tracker database")
+);
+
+module.exports = db;
