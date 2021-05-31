@@ -1,6 +1,11 @@
 const inquirer = require("inquirer");
 const db = require("../db/connection");
-const query = require("./sql");
+const {
+  viewAllEmployees,
+  viewAllEmployeesByDepartmentId,
+  addEmployee,
+} = require("./sql");
+let Table = require("easy-table");
 
 const init = () => {
   inquirer
@@ -22,23 +27,17 @@ const init = () => {
     })
     .then((data) => {
       console.log(data.answer);
-      let sql;
 
       if (data.answer === "View all employees") {
-        sql = query("employee");
+        viewAllEmployees();
+        init();
       } else if (data.answer === "View all employees by Department") {
-        // sql = `SELECT * FROM employees`;
-      } else {
+        viewAllEmployeesByDepartmentId();
+        // init();
+      } else if (data.answer === "Add Employee") {
+        addEmployee();
+        // init();
       }
-
-      // simple query
-      db.query(sql, function (err, rows) {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log(rows); // results contains rows returned by server
-      });
     });
 };
 
