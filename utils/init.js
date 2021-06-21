@@ -4,15 +4,39 @@ const {
   viewAllEmployees,
   viewAllEmployeesByDepartmentId,
   addEmployee,
+  employeeByManager,
+  addManager,
+  removeEmployee,
+  updateEmployeeRole,
+  updateEmployeeManager,
+  viewAllRoles,
 } = require("./sql");
 let Table = require("easy-table");
 
-const init = () => {
+const keepGoing = () => {
+  inquirer
+    .prompt({
+      type: "list",
+      name: "continue",
+      message: "Would you like to continue?",
+      choices: ["yes", "no"],
+    })
+    .then((data) => {
+      if (data.continue === "yes") {
+        init();
+      } else {
+        return;
+      }
+    });
+};
+
+const init = async () => {
   inquirer
     .prompt({
       type: "list",
       name: "answer",
-      message: "What would you like to do? ",
+      message:
+        "What would you like to do? (7sec timer until menu shows up again) ",
       choices: [
         "View all employees",
         "View all employees by Department",
@@ -23,22 +47,38 @@ const init = () => {
         "Update Employee Role",
         "Update Employee Manager",
         "View all Roles",
+        "Exit",
       ],
     })
-    .then((data) => {
-      console.log(data.answer);
-
-      if (data.answer === "View all employees") {
+    .then(({ answer }) => {
+      if (answer === "View all employees") {
         viewAllEmployees();
-        init();
-      } else if (data.answer === "View all employees by Department") {
+        // setTimeout(() => init(), 3000);
+      } else if (answer === "View all employees by Department") {
         viewAllEmployeesByDepartmentId();
-        // init();
-      } else if (data.answer === "Add Employee") {
+        // setTimeout(() => init(), 3000);
+      } else if (answer === "View all employees by Manager") {
+        employeeByManager();
+      } else if (answer === "Add Employee") {
         addEmployee();
-        // init();
+      } else if (answer === "Add Manager") {
+        addManager();
+      } else if (answer === "Remove Employee") {
+        removeEmployee();
+      } else if (answer === "Update Employee Role") {
+        updateEmployeeRole();
+      } else if (answer === "Update Employee Manager") {
+        updateEmployeeManager();
+      } else if (answer === "View all Roles") {
+        viewAllRoles();
+      } else {
+        return;
       }
-    });
+      setTimeout(() => {
+        init();
+      }, 9000);
+    })
+    .catch((err) => console.log(err));
 };
 
 module.exports = init;
