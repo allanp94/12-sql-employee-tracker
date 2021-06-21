@@ -57,6 +57,8 @@ const init = async () => {
       } else {
         return;
       }
+
+      //timeout to delay the init() function from exucuting so the user can enter the information required
       setTimeout(() => {
         init();
       }, 9000);
