@@ -13,23 +13,6 @@ const {
 } = require("./sql");
 let Table = require("easy-table");
 
-const keepGoing = () => {
-  inquirer
-    .prompt({
-      type: "list",
-      name: "continue",
-      message: "Would you like to continue?",
-      choices: ["yes", "no"],
-    })
-    .then((data) => {
-      if (data.continue === "yes") {
-        init();
-      } else {
-        return;
-      }
-    });
-};
-
 const init = async () => {
   inquirer
     .prompt({

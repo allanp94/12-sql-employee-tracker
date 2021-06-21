@@ -1,7 +1,6 @@
 const db = require("../db/connection");
 const inquirer = require("inquirer");
 let Table = require("easy-table");
-const init = require("./init");
 
 const viewAllEmployees = () => {
   const sql = `Select 
